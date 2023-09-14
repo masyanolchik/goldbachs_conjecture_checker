@@ -2,17 +2,17 @@
 from math import sqrt
 
 
-def generateFirstOddCompositeNumbers(n):
-    oddCompositeNumbers = []
+def generate_first_odd_composite_numbers(n):
+    odd_composite_numbers = []
     i = 9
-    while len(oddCompositeNumbers) <= n:
+    while len(odd_composite_numbers) <= n:
         if not isPrime(i) and (i % 2 != 0):
-            oddCompositeNumbers.append(i)
+            odd_composite_numbers.append(i)
         i = i + 1
-    return oddCompositeNumbers
+    return odd_composite_numbers
 
 
-def generatePrimesUntil(n):
+def generate_primes_until(n):
     primes = []
     for i in range(1, n):
         if isPrime(i):
@@ -36,13 +36,15 @@ def isPrime(num):
         return False
 
 
-def goldbachs_conjecture_checker(num):
+def goldbachs_conjecture_checker(num, primes):
     x = num
-    generated_primes_until = generatePrimesUntil(num)
+    generated_primes_until = primes
     last_y = -1
     last_z = -1
     could_be_written = False
     for y in generated_primes_until:
+        if x <= y:
+            break
         last_y = y
         last_z = sqrt((x - y) / 2)
         if last_z.is_integer():
@@ -50,19 +52,20 @@ def goldbachs_conjecture_checker(num):
             break
 
     if could_be_written:
-        print(str(x) + " = " + str(last_y) + " + 2*" + str(last_z))
+        print(str(x) + " = " + str(last_y) + " + 2*" + str(last_z) + "^2")
     else:
         print(str(x) + " could not be written")
 
 
 if __name__ == '__main__':
-    oddCompositeNumbers = generateFirstOddCompositeNumbers(10000)
+    oddCompositeNumbers = generate_first_odd_composite_numbers(10000)
+    prime_numbers = generate_primes_until(oddCompositeNumbers[len(oddCompositeNumbers) - 1])
     print("x = y + 2*z^2")
     print("z = ((x-y)/2)^(1/2)")
     print("x > y; z є N")
     print("5777 is the first such number")
     print()
     for number in oddCompositeNumbers:
-        goldbachs_conjecture_checker(number)
+        goldbachs_conjecture_checker(number, prime_numbers)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
