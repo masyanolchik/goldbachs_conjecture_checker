@@ -6,7 +6,7 @@ def generate_first_odd_composite_numbers(n):
     odd_composite_numbers = []
     i = 9
     while len(odd_composite_numbers) <= n:
-        if not isPrime(i) and (i % 2 != 0):
+        if not is_prime(i) and (i % 2 != 0):
             odd_composite_numbers.append(i)
         i = i + 1
     return odd_composite_numbers
@@ -15,17 +15,17 @@ def generate_first_odd_composite_numbers(n):
 def generate_primes_until(n):
     primes = []
     for i in range(1, n):
-        if isPrime(i):
+        if is_prime(i):
             primes.append(i)
 
     return primes
 
 
-def isPrime(num):
+def is_prime(num):
     # If given number is greater than 1
     if num > 1:
-        # Iterate from 2 to n / 2
-        for i in range(2, int(num / 2) + 1):
+        # Iterate from 2 to sqrt(num)
+        for i in range(2, int(sqrt(num) + 1)):
             # If num is divisible by any number between
             # 2 and n / 2, it is not prime
             if (num % i) == 0:
@@ -51,19 +51,20 @@ def goldbachs_conjecture_checker(num, primes):
             could_be_written = True
             break
 
-    if could_be_written:
-        print(str(x) + " = " + str(last_y) + " + 2*" + str(last_z) + "^2")
-    else:
+    if not could_be_written:
         print(str(x) + " could not be written")
+    else:
+        print(str(x) + " = " + str(last_y) + " + 2*" + str(last_z) + "^2")
 
 
 if __name__ == '__main__':
-    oddCompositeNumbers = generate_first_odd_composite_numbers(10000)
+    oddCompositeNumbers = generate_first_odd_composite_numbers(1000000)
     prime_numbers = generate_primes_until(oddCompositeNumbers[len(oddCompositeNumbers) - 1])
     print("x = y + 2*z^2")
+    print("y = x - 2*z^2")
     print("z = ((x-y)/2)^(1/2)")
     print("x > y; z є N")
-    print("5777 is the first such number")
+    print("5777 should be the first such number")
     print()
     for number in oddCompositeNumbers:
         goldbachs_conjecture_checker(number, prime_numbers)
